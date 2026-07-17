@@ -206,4 +206,4 @@ async function nftTop() {
   const d = await r.json(); if (!Array.isArray(d)) return [];
   return d.slice(0,10).map(n => ({name:n.name, floor:n.floor_price?.usd, vol:n.volume_24h?.usd, sym:n.symbol}));
 }
-module.exports = { start, stop, priceNow, detail, cryptoOverview, stockOverview, fmtOverview, CRYPTO };
+module.exports = { start, stop, priceNow, detail, cryptoOverview, stockOverview, fmtOverview, CRYPTO, chartDataUrl, convertNow, categories, categoryCoins, fearGreed, exchanges, ohlc, nftTop, trending, globalData };
