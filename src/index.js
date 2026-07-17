@@ -30,6 +30,7 @@ app.listen(PORT, () => {
   console.log("Mini App: " + APP_URL);
 });
 
-bot.launch().then(() => console.log("Bot started")).catch(e => console.error(e));
+bot.catch((e) => { console.error("Bot error:", e?.message || e); });
+bot.launch().then(() => console.log("Bot started")).catch(e => console.error("Launch error:", e?.message || e));
 process.once("SIGINT", () => { poller.stop(); scheduler.stop(); pricer.stop(); bot.stop("SIGINT"); process.exit(); });
 process.once("SIGTERM", () => { poller.stop(); scheduler.stop(); pricer.stop(); bot.stop("SIGTERM"); process.exit(); });
