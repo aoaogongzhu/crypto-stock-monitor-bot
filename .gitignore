@@ -1,10 +1,8 @@
-node_modules/
-data/
-.env
-*.db
+﻿@railway.json
 start-cf.js
-tunnel.js
-tunnel-only.js
-gen.js
-fix.py
-fix-bot.py
+tunnel*.js
+fix*.js
+revert*.js
+gen*.js
+fix*.py
+
