@@ -76,18 +76,10 @@ function symbolChoice(lang, pref) {
 }
 
 function render(ctx, obj, lang) {
-  if (ctx.updateType === "callback_query") {
-    ctx.answerCbQuery().catch(()=>{});
-    return ctx.reply(obj.text, { parse_mode:"Markdown", reply_markup:obj.kb.reply_markup }).then(() => {
-      return ctx.deleteMessage(ctx.callbackQuery.message.message_id).catch(()=>{});
-    }).catch(()=>{});
-  }
+  if (ctx.updateType === "callback_query")
+    return ctx.editMessageText(obj.text, { parse_mode:"Markdown", reply_markup:obj.kb.reply_markup }).catch(()=>{});
   return ctx.reply(obj.text, { parse_mode:"Markdown", reply_markup:obj.kb.reply_markup });
 }
-
-// ══════════════════════════════════════════════════
-//  REGISTER
-// ══════════════════════════════════════════════════
 function register(bot) {
 
   bot.start(async (ctx) => {
