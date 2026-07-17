@@ -76,9 +76,12 @@ function symbolChoice(lang, pref) {
 }
 
 function render(ctx, obj, lang) {
-  if (ctx.updateType === "callback_query")
-    try { ctx.deleteMessage(ctx.callbackQuery.message.message_id).catch(()=>{}); } catch(_) {}
-    return ctx.reply(obj.text, { parse_mode:"Markdown", reply_markup:obj.kb.reply_markup });
+  if (ctx.updateType === "callback_query") {
+    ctx.answerCbQuery().catch(()=>{});
+    return ctx.reply(obj.text, { parse_mode:"Markdown", reply_markup:obj.kb.reply_markup }).then(() => {
+      return ctx.deleteMessage(ctx.callbackQuery.message.message_id).catch(()=>{});
+    }).catch(()=>{});
+  }
   return ctx.reply(obj.text, { parse_mode:"Markdown", reply_markup:obj.kb.reply_markup });
 }
 
