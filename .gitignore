@@ -8,4 +8,5 @@ tunnel-only.js
 gen.js
 fix.py
 fix-bot.py
-railway.json
+fix*.js
+revert*.js
