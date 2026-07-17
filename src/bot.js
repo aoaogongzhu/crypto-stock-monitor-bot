@@ -430,6 +430,21 @@ function register(bot) {
   // ═══════════════════════════════════════════════
   //  📡 NEWS
   // ═══════════════════════════════════════════════
+  bot.action(/^n\.sub\.(.+)\.(\d+)$/, async (ctx) => {
+    const cat = sources.getCategory(ctx.match[1]); const idx = parseInt(ctx.match[2]);
+    if (!cat||!cat.feeds[idx]) return;
+    const f = cat.feeds[idx];
+    if (db.addSubscription(ctx.from.id, f.url, "", f.name)) await ctx.answerCbQuery("✅ "+f.name);
+    else await ctx.answerCbQuery("❌", true);
+  });
+
+
+  bot.action(/^n\.sc\.(.+)$/, async (ctx) => {
+    const cat = sources.getCategory(ctx.match[1]); if (!cat) return;
+    let c=0; for (const f of cat.feeds) { if (db.addSubscription(ctx.from.id, f.url, "", f.name)) c++; }
+    await ctx.answerCbQuery("✅ "+(c>0?"Added "+c:"❌"));
+  });
+
   bot.action(/^n\.(.+)$/, async (ctx) => {
     const lang = db.getLang(ctx.from.id);
     const key = ctx.match[1];
@@ -448,19 +463,6 @@ function register(bot) {
     await ctx.answerCbQuery();
   });
 
-  bot.action(/^n\.sub\.(.+)\.(\d+)$/, async (ctx) => {
-    const cat = sources.getCategory(ctx.match[1]); const idx = parseInt(ctx.match[2]);
-    if (!cat||!cat.feeds[idx]) return;
-    const f = cat.feeds[idx];
-    if (db.addSubscription(ctx.from.id, f.url, "", f.name)) await ctx.answerCbQuery("✅ "+f.name);
-    else await ctx.answerCbQuery("❌", true);
-  });
-
-  bot.action(/^n\.sc\.(.+)$/, async (ctx) => {
-    const cat = sources.getCategory(ctx.match[1]); if (!cat) return;
-    let c=0; for (const f of cat.feeds) { if (db.addSubscription(ctx.from.id, f.url, "", f.name)) c++; }
-    await ctx.answerCbQuery("✅ "+(c>0?"Added "+c:"❌"));
-  });
 
   // ═══════════════════════════════════════════════
   //  TEXT INPUT
