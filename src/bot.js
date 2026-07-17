@@ -77,7 +77,8 @@ function symbolChoice(lang, pref) {
 
 function render(ctx, obj, lang) {
   if (ctx.updateType === "callback_query")
-    return ctx.editMessageText(obj.text, { parse_mode:"Markdown", reply_markup:obj.kb.reply_markup }).catch(()=>{});
+    try { ctx.deleteMessage(ctx.callbackQuery.message.message_id).catch(()=>{}); } catch(_) {}
+    return ctx.reply(obj.text, { parse_mode:"Markdown", reply_markup:obj.kb.reply_markup });
   return ctx.reply(obj.text, { parse_mode:"Markdown", reply_markup:obj.kb.reply_markup });
 }
 
